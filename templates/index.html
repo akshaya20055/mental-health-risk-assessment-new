@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>Mental Health Risk Predictor</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 40px auto;
+      max-width: 420px;
+      line-height: 1.5;
+      color: #333;
+    }
+    h2 {
+      text-align: center;
+      margin-bottom: 30px;
+      color: #2c3e50;
+    }
+    label {
+      display: block;
+      margin-top: 15px;
+      margin-bottom: 6px;
+      font-weight: bold;
+      font-size: 0.9rem;
+    }
+    input[type="number"] {
+      width: 100%;
+      padding: 8px 10px;
+      font-size: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box;
+    }
+    button {
+      margin-top: 25px;
+      width: 100%;
+      padding: 10px;
+      background-color: #3498db;
+      color: white;
+      font-size: 1rem;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #2980b9;
+    }
+    .result {
+      margin-top: 30px;
+      padding: 15px;
+      background: #ecf0f1;
+      border-radius: 5px;
+      font-weight: bold;
+      text-align: center;
+      color: #27ae60;
+    }
+  </style>
+</head>
+<body>
+  <h2>Mental Health Risk Prediction</h2>
+  <form action="/predict" method="post">
+    <label for="stress_level">Self-Reported Stress Level (1–10):</label>
+    <input
+      type="number"
+      id="stress_level"
+      name="stress_level"
+      min="1"
+      max="10"
+      step="0.1"
+      required
+      value="{{ request.form.stress_level if request.form.stress_level else '' }}"
+    />
+
+    <label for="pm25">PM2.5 (µg/m³):</label>
+    <input
+      type="number"
+      id="pm25"
+      name="pm25"
+      step="0.1"
+      required
+      value="{{ request.form.pm25 if request.form.pm25 else '' }}"
+    />
+
+    <button type="submit">Predict</button>
+  </form>
+
+  {% if prediction_text %}
+  <div class="result">
+    <p>{{ prediction_text }}</p>
+    <p>{{ risk_category }}</p>
+  </div>
+  {% endif %}
+</body>
+</html>
